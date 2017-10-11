@@ -1,1 +1,7 @@
 target
+.idea
+sirius-parent.iml
+
+build/*
+.gradle/*
+out/*

@@ -1,0 +1,38 @@
+/**
+ * Settings changes in intellij:
+ * Build Tools > Gradle > Runner > Delegate Build actions to gradle (check that box)
+ */
+
+plugins {
+    id 'java-gradle-plugin'
+}
+
+project.group = "com.scireum"
+project.version = "4.0-SNAPSHOT"
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+gradlePlugin {
+    plugins {
+        siriusParent {
+            id = 'sirius-parent'
+            implementationClass = 'sirius.BuildPlugin'
+        }
+    }
+}
+
+dependencies {
+    compile localGroovy()
+    testCompile localGroovy()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2'
+}
