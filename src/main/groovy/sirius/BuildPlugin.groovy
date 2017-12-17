@@ -2,8 +2,10 @@ package sirius
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.internal.java.JavaLibrary
 import org.gradle.api.plugins.ApplicationPlugin
 import org.gradle.api.plugins.GroovyPlugin
+import org.gradle.api.plugins.JavaLibraryPlugin
 import org.gradle.api.plugins.JavaPlugin
 import sirius.actions.CopyGroovyMarker
 import sirius.actions.CopyJavaMarker
@@ -19,6 +21,7 @@ class BuildPlugin implements Plugin<Project> {
         project.getPlugins().apply(JavaPlugin.class)
         project.getPlugins().apply(GroovyPlugin.class)
         project.getPlugins().apply(ApplicationPlugin.class)
+        project.getPlugins().apply(JavaLibraryPlugin.class)
 
         project.mainClassName = "IPL"
         project.applicationDefaultJvmArgs = ["-Ddebug=true"]
@@ -36,24 +39,27 @@ class BuildPlugin implements Plugin<Project> {
         }
 
         project.dependencies {
-            testCompile 'junit:junit:4.12'
-            testCompile 'com.googlecode.junit-toolbox:junit-toolbox:2.2'
-            testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
-            testCompile 'cglib:cglib:3.2.5'
-            testCompile 'org.objenesis:objenesis:2.5.1'
+            api 'junit:junit:4.12'
+            api 'com.googlecode.junit-toolbox:junit-toolbox:2.2'
+            api 'org.spockframework:spock-core:1.1-groovy-2.4'
+            api 'cglib:cglib:3.2.5'
+            api 'org.objenesis:objenesis:2.5.1'
         }
-
 
         // define test suites:
         project.test {
-            includes ['*TestSuite.class']
+            include '*TestSuite.class'
+            jvmArgs = ["-Ddebug=true"]
         }
 
         project.sourceSets {
             test {
                 groovy {
                     srcDirs = ['src/test/groovy', 'src/test/java']
-                    exclude '**/*.java'
+                }
+
+                java {
+                    srcDirs = []
                 }
             }
         }

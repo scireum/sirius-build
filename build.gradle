@@ -13,6 +13,7 @@ project.version = "4.0-SNAPSHOT"
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'maven'
+apply plugin: 'java-library'
 
 repositories {
     mavenLocal()
@@ -29,10 +30,9 @@ gradlePlugin {
 }
 
 dependencies {
-    compile localGroovy()
-    testCompile localGroovy()
+    api localGroovy()
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2'
+    gradleVersion = '4.4'
 }
